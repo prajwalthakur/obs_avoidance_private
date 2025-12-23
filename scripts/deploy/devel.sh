@@ -1,31 +1,27 @@
 #!/bin/bash
-
-# Get base.sh funcs
 source "$(dirname "$0")/base.sh"
 
 stop_docker
 
-mode="gpu"
-
+mode="cpu"
 while getopts 'ch' opt; do
     case "$opt" in
-        c)
-            mode="cpu"
-            ;;
-        ?|h)
-            echo "Usage: $(basename $0) [-c]"
-            exit 1
-            ;;
+        c) mode="cpu" ;;
+        ?|h) echo "Usage: $(basename "$0") [-c]"; exit 1 ;;
     esac
 done
 shift "$(($OPTIND -1))"
 
-if [ "$mode" == "gpu" ]; then
-    run_docker --runtime=nvidia \
-    -v $absolute_path/workspace/:/root/workspace/src \
-    mp_ros2:latest bash
+: "${PROJECT_ROOT:=$(pwd)}"
+
+if [ "$mode" = "gpu" ]; then
+  run_docker --gpus all \
+    --mount type=bind,src="${PROJECT_ROOT}/workspace/ros_ws/src",target="/workspace/ros_ws/src" \
+    --mount type=bind,src="/tmp/.X11-unix",target="/tmp/.X11-unix",readonly \
+    -- bash
 else
-    run_docker \
-    -v $absolute_path/workspace/:/root/workspace/src \
-    mp_ros2:latest bash
+  run_docker \
+    --mount type=bind,src="${PROJECT_ROOT}/workspace/ros_ws/src",target="/workspace/ros_ws/src" \
+    --mount type=bind,src="/tmp/.X11-unix",target="/tmp/.X11-unix",readonly \
+    -- bash
 fi
