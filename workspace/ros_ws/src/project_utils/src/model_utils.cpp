@@ -8,7 +8,7 @@ namespace
     template <typename T>
     Eigen::Vector2<T> toEigenVector(const std::vector<T> &v) noexcept { return { v[0], v[1] }; }
     
-    Eigen::Vector2<float> toEigenVector(const std::shared_pointer<stPose> &v) noexcept { return { v->xCoord, v->yCoord}; }
+    Eigen::Vector2<float> toEigenVector(const std::shared_ptr<stPose> &v) noexcept { return { v->xCoord, v->yCoord}; }
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@ EllipseCollisionFootPrint::EllipseCollisionFootPrint(const double majorAxisLengt
         mPose  = std::make_shared<stPose>();
       }
 
-EllipseCollisionFootPrint::step(std::shared_pointer<stPose>& pose)
+void EllipseCollisionFootPrint::step(std::shared_ptr<stPose>& pose)
 {
     mPose = pose;
 }
@@ -38,7 +38,7 @@ RectangularModelClass::RectangularModelClass(const double length, const double w
 
 //////////////////////////////////////////////////////////////////////////
 
-RectangularModelClass::setCollisionFootPrint(const std::shared_pointer<CollisionFootPrint> collisionFootPrint)
+void RectangularModelClass::setCollisionFootPrint(const std::shared_ptr<CollisionFootPrint> collisionFootPrint)
 {
     auto tempPointer =  std::dynamic_pointer_cast<EllipseCollisionFootPrint>(collisionFootPrint);
     if(!tempPointer)
@@ -47,14 +47,14 @@ RectangularModelClass::setCollisionFootPrint(const std::shared_pointer<Collision
 
 //////////////////////////////////////////////////////////////////////////
 
-std::weak_pointer<CollisionFootPrint> RectangularModelClass::getCollisionFootPrint()
+std::weak_ptr<CollisionFootPrint> RectangularModelClass::getCollisionFootPrint()
 {
     return std::weak_ptr<EllipseCollisionFootPrint>(mCollisionFootprint);
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-void RectangularModelClass::step(std::shared_pointer<stPose>& pose)
+void RectangularModelClass::step(std::shared_ptr<stPose>& pose)
 {
 
     mPose = pose;
@@ -87,14 +87,14 @@ void RectangularModelClass::calcVertices()
 
 //////////////////////////////////////////////////////////////////////////
 
-const std::shared_pointer<stVertices> RectangularModelClass::getVertices() const
+const std::shared_ptr<stVertices> RectangularModelClass::getVertices() const
 {
     return mVertices;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-bool EllipseCollisionFootPrint::contains(const std::shared_pointer<stPose>& pose) const {
+bool EllipseCollisionFootPrint::contains(const std::shared_ptr<stPose>& pose) const {
     // For an ellipse E and the corresponding ellipse matrix A,
     // x is inside in E if (x-x0)^T * A * (x-x0) <= 1, where x0 is the center of E.
 
@@ -132,15 +132,15 @@ Eigen::Vector2f EllipseCollisionFootPrint::getCenter()
 
 //////////////////////////////////////////////////////////////////////////
 
-std::pair<double,bool> EllipseCollisionDetection::detectCollision(const std::shared_pointer<CollisionFootPrint> object1, const std::shared_pointer<CollisionFootPrint> object2)
+std::pair<double,bool> EllipseCollisionDetection::detectCollision(const std::shared_ptr<CollisionFootPrint> object1, const std::shared_ptr<CollisionFootPrint> object2)
 {
     auto obj1FootPrint = std::dynamic_pointer_cast<EllipseCollisionFootPrint>(object1);
     auto obj2FootPrint = std::dynamic_pointer_cast<EllipseCollisionFootPrint>(object2);
 
     if(!obj1FootPrint || !obj2FootPrint)
     {
-        std::cerr << "ERROR: Invalid footprint type\n";
-        return false;
+        std::cerr << "ERROR: Invalid footprint type";
+        return std::make_pair(-1.0,false);
     }
 
     Eigen::Vector2f a = obj1FootPrint->getCenter();
