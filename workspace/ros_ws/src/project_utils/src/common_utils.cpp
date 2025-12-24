@@ -7,7 +7,8 @@ void load_map(std::string map_path, std::vector<float>& values_buf, MapArrayXfRo
     while(std::getline(file,line)){
         std::stringstream ss(line);
         std::string word; 
-        while(std::getline(ss,word,',')){
+        while(std::getline(ss,word,','))
+        {
             values_buf.push_back(std::stof(word)); // creating a row of 3x1
         }
     }
