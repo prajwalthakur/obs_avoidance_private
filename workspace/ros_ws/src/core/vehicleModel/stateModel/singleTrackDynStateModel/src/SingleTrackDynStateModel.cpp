@@ -39,6 +39,7 @@ SingleTrackDynStateModel::SingleTrackDynStateModel(const std::string& vehConfig)
     setIntegrationStepSize(vehParam);
     createIntegrator(vehParam);
     reset();
+    updateCommandedControl();
 
 }
 
@@ -47,6 +48,7 @@ SingleTrackDynStateModel::SingleTrackDynStateModel(const std::string& vehConfig)
 void SingleTrackDynStateModel::createIntegrator(const YAML::Node& vehYamlConfig)
 {
     double intTimeStep = vehYamlConfig["integration"]["integrationStepSize"].as<double>();
+    double simTimeStep = vehYamlConfig["simulation"]["simTimeStep"].as<double>();
     auto tmpPointer = shared_from_this();
     mIntegrator = std::make_shared<IntegratorClass>
                 (
@@ -74,48 +76,97 @@ void SingleTrackDynStateModel::createIntegrator(const YAML::Node& vehYamlConfig)
 
 void SingleTrackDynStateModel::reset(){
 
-    mState.x = mInitXPose;
-    mState.y = default_y_pos;
-    mState.yaw = mInitYaw;
-    mState.vx = default_vx;
-    mState.sf = default_sf;
-    statevector.resize(NX);
-    statevector(0) = state.x;
-    statevector(1) = state.y;
-    statevector(2) = state.yaw;
-    statevector(3) = state.vx;
-    statevector(4) = state.sf;
+    mStateStruct.x = mInitXPose;
+    mStateStruct.y = mInitYPose;
+    mStateStruct.yaw = mInitYaw;
+    mStateStruct.vx = mInitVx;
+    mStateStruct.sf = mInitSf;
+    mInputStruct.acc = mInitAcc;
+    mInputStruct.sv = mInitSv;
+
+    mStateVector.resize(NX);
+    mInputVector.resize(NU);
+
+    mStateVector(0) = state.x;
+    mStateVector(1) = state.y;
+    mStateVector(2) = state.yaw;
+    mStateVector(3) = state.vx;
+    mStateVector(4) = state.sf;
+
+    mInputVector(0) = mInitAcc;
+    mInputVector(1) = mInitSv;
 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SingleTrackDynStateModel::setState(const StateVector & statevector){
-    this->statevector = statevector; 
-    this->state.x = this->statevector(0);
-    this->state.y = this->statevector(1);
-    this->state.yaw = this->statevector(2);
-    this->state.vx = this->statevector(3);
-    this->state.sf = this->statevector(4);
+    mStateVector = statevector; 
+    mStateStruct.x = mStateVector(0);
+    mStateStruct.y = mStateVector(1);
+    mStateStruct.yaw = mStateVector(2);
+    mStateStruct.vx = mStateVector(3);
+    mStateStruct.sf = mStateVector(4);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void SingleTrackDynStateModel::setInput(const InputVector & input_vector){
-    this->inputvector = input_vector;
-    this->input.acc = this->inputvector(0);
+    mInputVector = input_vector;
+    mInputStruct.acc = mInputVector(0);
+    mStateStruct.sv = mInputVector(1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 const StateVector& SingleTrackDynStateModel::getState() const {
-    return this->statevector;
+    return mStateVector;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 const StateVector& SingleTrackDynStateModel::getInput() const {
-    return this->inputvector;
+    return mInputVector;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+StateVector SingleTrackDynStateModel::xdot(const StateVector& statevector, const InputVector& inputvector) const
+{
+    StateVector statevector_dot;
+    statevector_dot.resize(NX);
+
+    auto xk = this->VectorToState(statevector);
+    auto uk = this->VectorToInput(inputvector);
+    //xdot,ydot,yawdot,vfodt,sfdot
+    statevector_dot(0) = xk.vx*std::cos(xk.yaw);
+    statevector_dot(1) = xk.vx*std::sin(xk.yaw);
+    statevector_dot(2) = xk.vx*std::tan(xk.sf)/mVehWheelBase;
+    statevector_dot(3) = uk.acc;
+    statevector_dot(4) = uk.sv;
+    return statevector_dot;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SingleTrackDynStateModel::updateCommandedControl()
+{
+    mCommandedControl = mInputVector;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SingleTrackDynStateModel::updateCommandedControl(const InputVector& u )
+{
+    mCommandedControl = u;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SingleTrackDynStateModel::step(simTimeStep)
+{
+    mIntegrator->simNextState(mCommandedControl,simTimeStep);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,24 +211,3 @@ InputStruct SingleTrackDynStateModel::VectorToInput(const InputVector& inputvect
     input.sv = inputvector(1);
     return input;
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-StateVector SingleTrackDynStateModel::xdot(const StateVector& statevector, const InputVector& inputvector) const
-{
-    StateVector statevector_dot;
-    statevector_dot.resize(NX);
-
-    auto xk = this->VectorToState(statevector);
-    auto uk = this->VectorToInput(inputvector);
-    //xdot,ydot,yawdot,vfodt,sfdot
-    statevector_dot(0) = xk.vx*std::cos(xk.yaw);
-    statevector_dot(1) = xk.vx*std::sin(xk.yaw);
-    statevector_dot(2) = xk.vx*std::tan(xk.sf)/veh_wheelbase;
-    statevector_dot(3) = uk.acc;
-    statevector_dot(4) = uk.sv;
-    return statevector_dot;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-

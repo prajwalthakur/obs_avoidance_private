@@ -18,7 +18,8 @@ StateVector IntegratorClass::efIntegrator(const StateVector& x, const InputVecto
     return x_next;
 }
 
-void IntegratorClass::simNextState( const InputVector& u,double ts)const{
+void IntegratorClass::simNextState( const InputVector& u,double ts)const
+{
 
     StateVector x_next = this->getState_();
     const int integration_steps = (int)(ts/this->mIntegrationStepSize);

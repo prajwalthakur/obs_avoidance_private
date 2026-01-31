@@ -4,9 +4,8 @@
 #include <Eigen/Dense>
 #include <cmath>
 #include <yaml-cpp/yaml.h>
-//typedef Eigen::Matrix<double,NX,1> StateVector;
-typedef Eigen::VectorXd InputVector;
-typedef Eigen::VectorXd StateVector;
+#include "core/core/CoreCollection.h"
+
 struct StateStruct{
     double x;
     double y;
@@ -26,7 +25,8 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
     using BaseType = StateModel;
     public:
         explicit SingleTrackDynStateModel(const std::string& vehConfig);
-        void step(const InputVector& u ) override;
+        void updateCommandedControl(const InputVector& u ) override;
+        void step() override;
         void reset();
         void setState(const StateVector &);
         void setInput(const InputVector &);
@@ -39,6 +39,7 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
         StateVector xdot(const StateVector & , const InputVector &) const;
     private:
         void createIntegrator(const YAML::Node& vehYamlConfig);
+        void updateCommandedControl();
     private:
         int NX;
         int NU;
@@ -51,10 +52,11 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
         double mInitSv;
         double mInitAcc;
         double mVehWheelBase;
-        InputStruct input;
-        InputVector inputvector;
-        StateStruct mState;
-        StateVector statevector;
+        InputStruct mInputStruct;
+        StateStruct mStateStruct;
+        InputVector mInputVector;
+        StateVector mStateVector;
+        InputVector mCommandedControl;
 };
 
 

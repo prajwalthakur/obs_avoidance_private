@@ -14,6 +14,10 @@
 #include <memory>
 
 
+//typedef Eigen::Matrix<double,NX,1> StateVector;
+using InputVector =  Eigen::VectorXd ;
+using StateVector = Eigen::VectorXd ;
+
 template <typename T>
 using ptStlCollection = std::vector<T>;
 

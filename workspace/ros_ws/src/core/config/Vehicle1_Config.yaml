@@ -1,4 +1,7 @@
 vehicle_param:
+  simulation:
+    simTimeStep: 0.01 
+
   geomModelType: "rectangular"
   collFootPrintType: "ellipse"
   vehLength: 0.58   

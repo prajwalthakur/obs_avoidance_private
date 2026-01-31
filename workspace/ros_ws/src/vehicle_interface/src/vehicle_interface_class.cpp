@@ -32,6 +32,10 @@ void VehicleInterface::state_pub_timer_callback() {
 void VehicleInterface::state_update_timer_callback(){
     RCLCPP_INFO(this->get_logger(), " State Update Timer triggered");
     m_integrator->simNextState(m_control_ref,m_sim_delta_t);
+    for(int i = 0 ;  i < 2  ; ++ i) 
+    {
+        mVehicleCollection[]
+    }
 }
 
 void VehicleInterface::control_sub_callback(const project_utils::msg::EigenVector::SharedPtr& msg){
@@ -45,6 +49,7 @@ void VehicleInterface::control_sub_callback(const project_utils::msg::EigenVecto
  * m_vehicle, m_integrator, publisher and subscriber
  */
 void VehicleInterface::on_activate() {
+    addVehicles();
     // shared pointer to itself , make sure not to create a new reference from (this) pointer
     m_vehicle = std::make_shared<VehicleClass>(shared_from_this()); 
     m_integrator = std::make_shared<IntegratorClass>( 
@@ -71,4 +76,15 @@ void VehicleInterface::on_activate() {
     m_state_update_timer = this->create_wall_timer(std::chrono::duration<double>(m_sim_delta_t),[this](){this->state_update_timer_callback();});
     m_state_pub_timer = this->create_wall_timer(std::chrono::duration<double>(m_state_publish_delta_t),[this](){this->state_pub_timer_callback();});
     
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void VehicleInterface::addVehicles()
+{
+    for(int i=0;i<2;++i)
+    {
+        std::string vehConfig = "/home/prajwal/projects/obs_avoidance_private/workspace/ros_ws/src/core/config" + "/Vehicle" + std::to_string(i) + "_Config.yaml";
+        ptSharedPtr<VehicleModel> veh  = std::make_shared<SingleTrackDynModel>(vehConfig)
+    }
 }

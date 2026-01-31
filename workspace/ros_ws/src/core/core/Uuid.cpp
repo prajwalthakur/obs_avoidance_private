@@ -2,7 +2,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-crUuid::crUuid(const std::string& category, int value)
+Uuid::Uuid(const std::string& category, int value)
     :mValue(value)
 {
     if(value == -1)
@@ -15,7 +15,7 @@ crUuid::crUuid(const std::string& category, int value)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-crUuid::crUuid(const std::string& category, long int value)
+Uuid::Uuid(const std::string& category, long int value)
     :mValue(value)
 {
     if(value == -1)
@@ -28,38 +28,38 @@ crUuid::crUuid(const std::string& category, long int value)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void crUuid::setCategoryValue(const std::string& category, long int value)
+void Uuid::setCategoryValue(const std::string& category, long int value)
 {
     if(value<=-1)
-        std::cerr<<"crUuid: value should be greater than -1";
+        std::cerr<<"Uuid: value should be greater than -1";
     mGen.setCategoryValue(category,value);
     
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const long int crUuid::value() const
+const long int Uuid::value() const
 {
     return mValue;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const std::string& crUuid::category() const
+const std::string& Uuid::category() const
 {
     return mCategory;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void crUuid::setCategoryValue()
+void Uuid::setCategoryValue()
 {
     mValueCategoryStr = mValueStr + mCategory;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void crUuid::print() const
+void Uuid::print() const
 {
     if (mCategory.empty())
         fmt::print(

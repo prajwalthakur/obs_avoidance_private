@@ -4,13 +4,13 @@
 #include <string>
 #include "core/core/Utils.h"
 #include "core/core/UuidGenerator.h"
-class crUuid
+class Uuid
 {
     public:
-        crUuid()=default;
-        ~crUuid()=default;
-        crUuid(const std::string& category,int value = -1);
-        crUuid(const std::string& category,long int value = -1);
+        Uuid()=default;
+        ~Uuid()=default;
+        Uuid(const std::string& category,int value = -1);
+        Uuid(const std::string& category,long int value = -1);
         static void setCategoryValue(const std::string& category, long int value = -1);
 
         // Getters
@@ -44,9 +44,9 @@ namespace std
     }
 
     template <>
-    struct hash<crUuid>
+    struct hash<Uuid>
     {
-        std::size_t operator()(const crUuid& id) const noexcept
+        std::size_t operator()(const Uuid& id) const noexcept
         {
             std::size_t h1 = std::hash<long int>{}(id.value());
             std::size_t h2 = std::hash<std::string>{}(id.category());
