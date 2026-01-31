@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Source ROS and the RoboPlan workspace
+# Source ROS and the ros workspace
 echo -e "Sourced ROS jazzy"
 source /opt/ros/jazzy/setup.bash
 

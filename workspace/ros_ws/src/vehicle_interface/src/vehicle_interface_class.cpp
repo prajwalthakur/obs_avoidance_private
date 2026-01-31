@@ -41,7 +41,7 @@ void VehicleInterface::control_sub_callback(const project_utils::msg::EigenVecto
 
 
 /**
- * @brief VehicleInterface activation function to intialize 
+ * @brief VehicleInterface activation function to initialize 
  * m_vehicle, m_integrator, publisher and subscriber
  */
 void VehicleInterface::on_activate() {

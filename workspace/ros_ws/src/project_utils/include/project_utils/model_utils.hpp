@@ -8,85 +8,18 @@ typedef Eigen::VectorXd StateVector;
 typedef Eigen::VectorXd InputVector; //the size is determined at runtime rather than compile time.
 
 
-struct stPose
-{   
-    double xCoord{0.0};
-    double yCoord{0.0};
-    double zCoord{0.0};
-    double yaw{0.0};
-    inline void setCoord(double x, double y , double z , double yaw )
-    {
-        xCoord = x;
-        yCoord = y;
-        zCoord = z;
-        yaw = yaw;
-    }
-};
-
-struct stVertices
-{
-    stPose frontLeft;
-    stPose frontRight;
-    stPose rearRight;
-    stPose rearLeft;
-};
-
-class CollisionFootPrint
-{
-    public:
-    CollisionFootPrint()=default;
-    virtual ~CollisionFootPrint()=default;
-    virtual void step(std::shared_ptr<stPose>& pose)=0;
-};
-
-class EllipseCollisionFootPrint : public CollisionFootPrint
-{
-    public:
-        EllipseCollisionFootPrint(const double majorAxisLength, const double minorAxisLength);
-        ~EllipseCollisionFootPrint()=default;
-        void step(std::shared_ptr<stPose>& pose) override;
-        bool contains(const std::shared_ptr<stPose>& pose) const ;
-        Eigen::Matrix2f getEllipseMatrix() const ;
-        Eigen::Vector2f getCenter();
-    private:
-        std::shared_ptr<stPose> mPose{nullptr};
-        double mMajorAxisLength{0.0};
-        double mMinorAxisLength{0.0};
-        double mSemiMajorAxisLength{0.0};
-        double mSemiMinorAxisLength{0.0};
-
-};
 
 
-class ModelClass
-{
-    public:
-    ModelClass()=default;
-    virtual ~ModelClass()=default;  
-    virtual void setCollisionFootPrint(const std::shared_ptr<CollisionFootPrint> collisionFootPrint)=0;
-    virtual std::weak_ptr<CollisionFootPrint> getCollisionFootPrint()=0;
-    virtual void step(std::shared_ptr<stPose>& pose)=0 ;
-};
 
-class RectangularModelClass : public ModelClass
-{
-    public:
-    RectangularModelClass(const double length, const double width);
-    virtual ~RectangularModelClass()=default;
-    void setCollisionFootPrint(const std::shared_ptr<CollisionFootPrint> collisionFootPrint) override;
-    std::weak_ptr<CollisionFootPrint> getCollisionFootPrint() override;
-    void step(std::shared_ptr<stPose>& pose) override;
-    const std::shared_ptr<stVertices> getVertices() const;
-    
-    private:
-        void calcVertices();
-    private:
-        double mLength{0.0};
-        double mWidth{0.0};
-        std::shared_ptr<stVertices> mVertices{nullptr};
-        std::shared_ptr<EllipseCollisionFootPrint> mCollisionFootprint{nullptr};
-        std::shared_ptr<stPose> mPose{nullptr};
-};
+
+
+
+
+
+
+
+
+
 
 class CollisionDetectionClass
 {

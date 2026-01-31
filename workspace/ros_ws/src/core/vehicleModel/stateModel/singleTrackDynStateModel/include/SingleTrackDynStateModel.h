@@ -1,0 +1,63 @@
+
+#pragma once
+#include <rclcpp/rclcpp.hpp>
+#include <Eigen/Dense>
+#include <cmath>
+#include <yaml-cpp/yaml.h>
+//typedef Eigen::Matrix<double,NX,1> StateVector;
+typedef Eigen::VectorXd InputVector;
+typedef Eigen::VectorXd StateVector;
+struct StateStruct{
+    double x;
+    double y;
+    double yaw;
+    double vx;
+    double sf;
+};
+
+struct InputStruct{
+        double sv;
+        double acc;
+};
+
+
+class SingleTrackDynStateModel : public StateModel, public std::enable_shared_from_this<SingleTrackDynStateModel>
+{
+    using BaseType = StateModel;
+    public:
+        explicit SingleTrackDynStateModel(const std::string& vehConfig);
+        void step(const InputVector& u ) override;
+        void reset();
+        void setState(const StateVector &);
+        void setInput(const InputVector &);
+        const StateVector& getState() const;
+        const StateVector& getInput() const;
+        StateVector StateToVector(const StateStruct & ) const;
+        StateStruct VectorToState(const StateVector &) const;
+        InputVector InputToVector(const InputStruct &) const;
+        InputStruct VectorToInput(const InputVector &) const;
+        StateVector xdot(const StateVector & , const InputVector &) const;
+    private:
+        void createIntegrator(const YAML::Node& vehYamlConfig);
+    private:
+        int NX;
+        int NU;
+        float T_fwd;
+        double mInitXPose;
+        double mInitYPose;
+        double mInitYaw;
+        double mInitVx;
+        double mInitSf;
+        double mInitSv;
+        double mInitAcc;
+        double mVehWheelBase;
+        InputStruct input;
+        InputVector inputvector;
+        StateStruct mState;
+        StateVector statevector;
+};
+
+
+
+
+
