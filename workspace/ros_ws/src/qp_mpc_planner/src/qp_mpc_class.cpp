@@ -1,13 +1,15 @@
 #include "qp_mpc_planner/qp_mpc_class.hpp"
 QpMpc::QpMpc():Node("qp_mpc_planner_node"),
-             m_linear_acceleration_accumulator(10){
+             m_linear_acceleration_accumulator(10)
+{
     RCLCPP_INFO(this->get_logger(),"qp mpc node started");
     clock = this->get_clock();
     rclcpp::Time start = clock->now();
     init(start);
 
 }
-void QpMpc::init(rclcpp::Time & time){
+void QpMpc::init(rclcpp::Time & time)
+{
     resetAccumulators();
     m_timestamp = time;
     std::string map_path = "/root/workspace/src/project_utils/maps/e7_floor5_square.csv";
@@ -158,7 +160,8 @@ void QpMpc::ref_wp_section(int idx_int, int m_path_num_points, const Eigen::Arra
 }
 
 
-void QpMpc::get_ego_poses_prediction(Eigen::ArrayXXf& predicted_ego_poses, Eigen::Array3f& current_ego_pose, PlannerParam& planner_param){
+void QpMpc::get_ego_poses_prediction(Eigen::ArrayXXf& predicted_ego_poses, Eigen::Array3f& current_ego_pose, PlannerParam& planner_param)
+{
 
     //RCLCPP_INFO_STREAM(this->get_logger(), "in get_ego_poses_prediction"<< planner_param.x.rows()<<planner_param.x.cols()<<planner_param.y.rows()<<planner_param.y.cols());
     Eigen::ArrayXXf prev_pred_ego_poses = stack(stack(planner_param.x,planner_param.y,'h'),planner_param.commanded_yaw,'h').transpose();

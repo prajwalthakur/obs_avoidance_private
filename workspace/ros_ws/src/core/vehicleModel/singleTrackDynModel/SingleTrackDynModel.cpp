@@ -24,5 +24,13 @@ SingleTrackDynModel::SingleTrackDynModel(const std::string& vehParam)
 
 void SingleTrackDynModel::step()
 {
-    mStateModel->step()
+    mStateModel->step();
+    StateVector st  = mStateModel->getState();
+    double x = st(0);
+    double y = st(1);
+    double yaw = st(2);
+    double vx = st(3);
+    double sf = st(4);
+    ptSharedPtr<stPose> pose  = std::make_shared<stPose>(x,y,0.0,yaw);
+    mGeomModel->step(pose);
 }

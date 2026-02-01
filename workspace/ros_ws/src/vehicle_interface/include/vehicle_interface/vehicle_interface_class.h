@@ -7,26 +7,28 @@
 
 #include "core/vehicleModel/VehicleModelCollection.h"
 #include "core/core/CoreCollection.h"
-class VehicleInterface: public rclcpp::Node{
+class VehicleInterface: public rclcpp::Node
+{
     public:
         VehicleInterface();
         void on_activate();
     private:
         void addVehicles();
     private: 
+        int mNumVehicles{2};
         ptUnorderedMap<Uuid,ptSharedPtr<VehicleModel>> mVehicleCollection;
         ptUnorderedMap<long int , Uuid> mVehKeyCollection;
         ptUnorderedMap<Uuid,InputVector> mCommandedControlMap;
-        rclcpp::Publisher<project_utils::msg::EigenVector>::SharedPtr m_state_publisher;
-        rclcpp::Subscription<project_utils::msg::EigenVector>::SharedPtr m_control_subscriber;
-        rclcpp::TimerBase::SharedPtr m_state_update_timer;
-        rclcpp::TimerBase::SharedPtr m_state_pub_timer;
-        InputVector m_control_ref;
+        ptUnorderedMap<Uuid, rclcpp::Publisher<project_utils::msg::EigenVector>::SharedPtr> mStatePublisher;
+        ptUnorderedMap<Uuid, rclcpp::Subscription<project_utils::msg::EigenVector>::SharedPtr> mControlSubscriber;
+
+        rclcpp::TimerBase::SharedPtr mStateUpdateTimer;
+        rclcpp::TimerBase::SharedPtr mStatePubTimer;
+
         void state_pub_timer_callback(); 
         void state_update_timer_callback();
-        void control_sub_callback(const project_utils::msg::EigenVector::SharedPtr& msg);
-        int nx;
-        int nu;
-        double m_sim_delta_t;
-        double m_state_publish_delta_t;
+        void control_sub_callback(const project_utils::msg::EigenVector::SharedPtr& msg,Uuid& id);
+        
+        double mSimTimeStep;
+        double mStatePublisherTimeStep;
 };

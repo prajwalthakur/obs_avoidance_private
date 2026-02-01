@@ -30,7 +30,7 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
         void reset();
         void setState(const StateVector &);
         void setInput(const InputVector &);
-        const StateVector& getState() const;
+        const StateVector& getState() const override
         const StateVector& getInput() const;
         StateVector StateToVector(const StateStruct & ) const;
         StateStruct VectorToState(const StateVector &) const;

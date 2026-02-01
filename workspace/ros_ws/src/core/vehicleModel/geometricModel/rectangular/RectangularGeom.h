@@ -1,8 +1,8 @@
 
 #pragma once
 #include "core/core/CoreCollection.h"
-#include "core/utils/include/CommonUtils.h"
-#include "core/VehicleModel/GeometricModel.h"
+#include "core/utils/UtilsCollection.h"
+#include "core/vehicleModel/GeometricModel.h"
 
 struct stVertices
 {

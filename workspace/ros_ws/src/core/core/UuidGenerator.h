@@ -3,7 +3,6 @@
 #include <map>
 #include <vector>
 #include "core/core/Singleton.h"
-#include "core/core/Random.h"
 class UuidGenerator : public crSingleton<UuidGenerator>
 {
     public:

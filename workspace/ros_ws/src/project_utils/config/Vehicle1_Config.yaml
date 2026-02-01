@@ -1,3 +1,7 @@
+
+simulation:
+  simTimeStep: 0.01
+  statePublisherTimeStep: 0.05
 vehicle_param:
   simulation:
     simTimeStep: 0.01 

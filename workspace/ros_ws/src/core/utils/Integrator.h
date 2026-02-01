@@ -3,11 +3,10 @@
 #include <Eigen/Dense>
 #include <cmath>
 #include <functional>
-typedef Eigen::VectorXd StateVector;
-typedef Eigen::VectorXd InputVector; //the size is determined at runtime rather than compile time.
+#include "core/core/CoreCollection.h"
 
-
-class IntegratorClass{
+class IntegratorClass
+{
     public:
         explicit IntegratorClass(std::function<StateVector(const StateVector&, const InputVector&)> dynamics , 
                 std::function<const StateVector&()> getState,

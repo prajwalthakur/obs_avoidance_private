@@ -16,7 +16,19 @@
 
 //typedef Eigen::Matrix<double,NX,1> StateVector;
 using InputVector =  Eigen::VectorXd ;
+
 using StateVector = Eigen::VectorXd ;
+
+
+using  MapArrayXfRow = Eigen::Map<Eigen::Array<float, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>> ;
+
+using MapMatrixfRow =  Eigen::Map<Eigen::Matrix<float,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor>> ;
+
+using MatrixXfRow =  Eigen::Matrix<float,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> ;
+
+using AXXf = Eigen::ArrayXXf;
+
+using AXf = Eigen::ArrayXf;       // column vector
 
 template <typename T>
 using ptStlCollection = std::vector<T>;
@@ -46,3 +58,21 @@ template <typename T>
 using ptOpt = std::optional<T>;
 
 
+void load_map(std::string map_path, std::vector<float>& values_buf, MapArrayXfRow & mat_map_out)
+{
+    int numCOl =3;
+    std::ifstream file(map_path); //map_path is  a string to the .csv file containing
+    std::string line;
+    //std::vector<float> values_vec;
+    while(std::getline(file,line)){
+        std::stringstream ss(line);
+        std::string word; 
+        while(std::getline(ss,word,','))
+        {
+            values_buf.push_back(std::stof(word)); // creating a row of 3x1
+        }
+    }
+    int rows = values_buf.size()/numCOl;
+    new (&mat_map_out) MapArrayXfRow(values_buf.data(), rows, numCOl);
+    return;
+}

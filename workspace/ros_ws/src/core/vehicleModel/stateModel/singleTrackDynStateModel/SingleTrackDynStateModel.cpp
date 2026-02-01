@@ -167,7 +167,8 @@ void SingleTrackDynStateModel::updateCommandedControl(const InputVector& u )
 
 void SingleTrackDynStateModel::step()
 {
-    mIntegrator->simNextState(mCommandedControl);
+    mIntegrator->simNextState(mCommandedControl); // state space step
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////
