@@ -1,9 +1,8 @@
 #pragma once
-#include <rclcpp/rclcpp.hpp>
 #include <Eigen/Dense>
 #include <cmath>
 #include <functional>
-#include "core/core/CoreCollection.h"
+#include "/workspace/ros_ws/src/core/core/CoreCollection.h"
 
 class IntegratorClass
 {

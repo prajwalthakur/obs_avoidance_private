@@ -1,5 +1,5 @@
 #pragma once
-#include "core/vehicleModel/VehicleModel.h"
-#include "core/vehicleModel/stateModel/StateModelCollection.h"
-#include "core/vehicleModel/geometricModel/GeometricModelCollection.h"
-#include "core/vehicleModel/singleTrackDynModel/SingleTrackDynModel.h"
+#include "VehicleModel.h"
+#include "stateModel/StateModelCollection.h"
+#include "geometricModel/GeometricModelCollection.h"
+#include "singleTrackDynModel/SingleTrackDynModel.h"

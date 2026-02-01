@@ -2,7 +2,7 @@
 #include <string>
 #include <map>
 #include <vector>
-#include "core/core/Singleton.h"
+#include "Singleton.h"
 class UuidGenerator : public crSingleton<UuidGenerator>
 {
     public:

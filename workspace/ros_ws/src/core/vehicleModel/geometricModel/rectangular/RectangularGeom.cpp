@@ -1,5 +1,5 @@
 
-#include "core/vehicleModel/geometricModel/rectangular/RectangularGeom.h"
+#include "RectangularGeom.h"
 
 //////////////////////////////////////////////////////////////////////////
 

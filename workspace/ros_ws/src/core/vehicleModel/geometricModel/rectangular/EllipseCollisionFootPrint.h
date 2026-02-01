@@ -1,5 +1,5 @@
 #pragma once
-#include "core/VehicleModel/VehicleModel.h"
+#include "VehicleModel.h"
 
 class EllipseCollisionFootPrint : public CollisionFootPrint
 {

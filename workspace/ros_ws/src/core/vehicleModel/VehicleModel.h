@@ -1,8 +1,8 @@
 #pragma once
-#include "core/core/CoreCollection.h"
-#include "core/utils/include/UtilsCollection.h"
-#include "core/vehicleModel/geometricModel/GeometricModelCollection.h"
-#include  "core/vehicleModel/stateModel/StateModelCollection.h"
+#include "CoreCollection.h"
+#include "UtilsCollection.h"
+#include "geometricModel/GeometricModelCollection.h"
+#include  "stateModel/StateModelCollection.h"
 class VehicleModel
 {
     public:

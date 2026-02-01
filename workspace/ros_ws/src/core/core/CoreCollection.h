@@ -1,5 +1,5 @@
 #pragma once
-#include "core/core/Singleton.h"
-#include "core/core/Utils.h"
-#include "core/core/UuidGenerator.h"
-#include "core/core/MacrosExpression.h"
+#include "Singleton.h"
+#include "Utils.h"
+#include "UuidGenerator.h"
+#include "MacrosExpression.h"

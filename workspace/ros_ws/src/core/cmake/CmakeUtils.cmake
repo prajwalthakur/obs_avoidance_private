@@ -184,6 +184,7 @@ function(project_target_link_libraries)
     endif()
     foreach(_other_target IN ITEMS ${ARGN} )
         target_link_libraries(${_target_name}  ${_other_target})
+        message(STATUS "########## ADDING   ${_other_target} ")  
     endforeach()
 endfunction()
 

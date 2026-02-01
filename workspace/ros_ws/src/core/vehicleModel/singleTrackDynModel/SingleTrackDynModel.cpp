@@ -1,4 +1,4 @@
-#include "core/vehicleModel/singleTrackDynModel/SingleTrackDynModel.h"
+#include "SingleTrackDynModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 

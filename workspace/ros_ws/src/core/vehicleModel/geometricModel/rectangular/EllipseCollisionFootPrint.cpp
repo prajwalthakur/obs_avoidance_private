@@ -1,5 +1,5 @@
 
-#include "core/vehicleModel/geometricModel/rectangular/EllipseCollisionFootPrint.h"
+#include "EllipseCollisionFootPrint.h"
 
 //////////////////////////////////////////////////////////////////////////
 

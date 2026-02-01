@@ -2,8 +2,8 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "core/core/Utils.h"
-#include "core/core/UuidGenerator.h"
+#include "Utils.h"
+#include "UuidGenerator.h"
 class Uuid
 {
     public:

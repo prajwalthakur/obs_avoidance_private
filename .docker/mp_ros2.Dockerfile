@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     software-properties-common \
     lsb-release \
     ca-certificates \
+    libfmt-dev \
     curl \
     gnupg \
     wget \
