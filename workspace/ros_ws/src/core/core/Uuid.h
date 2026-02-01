@@ -18,6 +18,7 @@ class Uuid
         const std::string& category() const;
         //const std::string& toCategoryStr() const;
         void print() const ;
+        //const Uuid& getIdbyValue();
     private:
         void setCategoryValue();
     private:

@@ -17,6 +17,7 @@ SingleTrackDynModel::SingleTrackDynModel(const std::string& vehParam)
     }
 
     mStateModel = std::make_shared<SingleTrackDynStateModel>(const std::string& vehParam)
+    mId = Uuid("vehicle");
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -68,7 +68,8 @@ void SingleTrackDynStateModel::createIntegrator(const YAML::Node& vehYamlConfig)
                     {
                         return setInput(input);
                     },
-                    intTimeStep;
+                    intTimeStep,
+                    simTimeStep
                 );
 }
 
@@ -164,9 +165,9 @@ void SingleTrackDynStateModel::updateCommandedControl(const InputVector& u )
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SingleTrackDynStateModel::step(simTimeStep)
+void SingleTrackDynStateModel::step()
 {
-    mIntegrator->simNextState(mCommandedControl,simTimeStep);
+    mIntegrator->simNextState(mCommandedControl);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

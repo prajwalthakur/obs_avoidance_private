@@ -30,3 +30,16 @@ void IntegratorClass::simNextState( const InputVector& u,double ts)const
     this->setState_(x_next);
     this->setInput_(u);
 }
+
+void IntegratorClass::simNextState(const InputVector&) const
+{
+    StateVector x_next = this->getState_();
+    const int integration_steps = (int)(mSimStepSize/this->mIntegrationStepSize);
+    for(int i=0;i<integration_steps;i++)
+    {
+        x_next=this->rk4Integrator(x_next,u,mIntegrationStepSize);
+    }
+    //RCLCPP_INFO(this->get_logger(), "rk4 called");
+    this->setState_(x_next);
+    this->setInput_(u);
+}

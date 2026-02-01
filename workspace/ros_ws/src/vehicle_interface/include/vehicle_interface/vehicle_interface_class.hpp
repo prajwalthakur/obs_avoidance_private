@@ -15,6 +15,8 @@ class VehicleInterface: public rclcpp::Node{
         void addVehicles();
     private: 
         ptUnorderedMap<Uuid,ptSharedPtr<VehicleModel>> mVehicleCollection;
+        ptUnorderedMap<long int , Uuid> mVehKeyCollection;
+        ptUnorderedMap<Uuid,InputVector> mCommandedControlMap;
         rclcpp::Publisher<project_utils::msg::EigenVector>::SharedPtr m_state_publisher;
         rclcpp::Subscription<project_utils::msg::EigenVector>::SharedPtr m_control_subscriber;
         rclcpp::TimerBase::SharedPtr m_state_update_timer;
