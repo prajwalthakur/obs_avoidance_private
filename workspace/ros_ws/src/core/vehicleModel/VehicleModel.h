@@ -13,6 +13,7 @@ class VehicleModel
             return mId;
         }
         virtual void step() = 0;
+        virtual StateVector getState() const = 0;
     protected:
         ptSharedPtr<GeometricModel> mGeomModel{nullptr}; // Geometric Model, contains geometric shape and footprint
         ptSharedPtr<StateModel> mStateModel{nullptr}; // state space model of vehicle

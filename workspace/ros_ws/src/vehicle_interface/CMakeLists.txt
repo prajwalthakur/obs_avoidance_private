@@ -21,10 +21,16 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
     ament_cmake
     rclcpp
     std_msgs
+
 )
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
+                 ${CMAKE_BINARY_DIR}/core_build)
+
+
 
 
 
@@ -44,13 +50,20 @@ target_include_directories(vehicle_interface_class PUBLIC
 
 ament_target_dependencies(vehicle_interface_class PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
-
+target_link_libraries(vehicle_interface_class
+  PUBLIC
+    core
+    utils
+    vehicleModel
+)
 # =============================
 # Build Vehicle Node
 # =============================
 add_executable(vehicle_interface_node src/vehicle_interface_node.cpp)
 
 target_link_libraries(vehicle_interface_node vehicle_interface_class )
+
+
 
 # =============================
 # Build MPC Node

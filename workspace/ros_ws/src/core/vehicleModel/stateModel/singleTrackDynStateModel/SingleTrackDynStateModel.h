@@ -26,14 +26,14 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
 {
     using BaseType = StateModel;
     public:
-        explicit SingleTrackDynStateModel(const std::string& vehConfig);
+        explicit SingleTrackDynStateModel(const YAML::Node& vehParam);
         void updateCommandedControl(const InputVector& u ) override;
         void step() override;
+        const StateVector& getState() const override;
+        const StateVector& getInput() const;
         void reset();
         void setState(const StateVector &);
         void setInput(const InputVector &);
-        const StateVector& getState() const override;
-        const StateVector& getInput() const;
         StateVector StateToVector(const StateStruct & ) const;
         StateStruct VectorToState(const StateVector &) const;
         InputVector InputToVector(const InputStruct &) const;

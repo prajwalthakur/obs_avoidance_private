@@ -57,7 +57,7 @@ Eigen::Vector2f EllipseCollisionFootPrint::getCenter()
 
 //////////////////////////////////////////////////////////////////////////
 
-std::pair<double,bool> EllipseCollisionDetection::detectCollision(const std::shared_ptr<CollisionFootPrint> object1, const std::shared_ptr<CollisionFootPrint> object2)
+std::pair<double,bool> EllipseCollisionFootPrint::detectCollision(const std::shared_ptr<CollisionFootPrint> object1, const std::shared_ptr<CollisionFootPrint> object2)
 {
     auto obj1FootPrint = std::dynamic_pointer_cast<EllipseCollisionFootPrint>(object1);
     auto obj2FootPrint = std::dynamic_pointer_cast<EllipseCollisionFootPrint>(object2);

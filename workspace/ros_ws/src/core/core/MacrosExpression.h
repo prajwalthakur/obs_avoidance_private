@@ -16,8 +16,6 @@
 #include <fstream>
 #include <sstream>
 
-
-
 //typedef Eigen::Matrix<double,NX,1> StateVector;
 using InputVector =  Eigen::VectorXd ;
 
@@ -61,8 +59,9 @@ using ptwkPtr = std::weak_ptr<T>;
 template <typename T>
 using ptOpt = std::optional<T>;
 
+////////////////////////////////////////////////////////////////////////////////
 
-void load_map(std::string map_path, std::vector<float>& values_buf, MapArrayXfRow & mat_map_out)
+inline void load_map(std::string map_path, std::vector<float>& values_buf, MapArrayXfRow & mat_map_out)
 {
     int numCOl =3;
     std::ifstream file(map_path); //map_path is  a string to the .csv file containing
@@ -81,4 +80,28 @@ void load_map(std::string map_path, std::vector<float>& values_buf, MapArrayXfRo
     return;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+inline std::string str_tolower(std::string s)
+{
+    std::transform(s.begin(), s.end(), s.begin(),
+                // static_cast<int(*)(int)>(std::tolower)         // wrong
+                // [](int c){ return std::tolower(c); }           // wrong
+                // [](char c){ return std::tolower(c); }          // wrong
+                   [](unsigned char c){ return std::tolower(c); } // correct
+                  );
+    return s;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+inline bool isStringEqual(const std::string& s1, const std::string& s2)
+{
+    std::string s1temp = str_tolower(s1);
+    std::string s2temp = str_tolower(s2);
+    if(s1temp.compare(s2temp)==0)
+        return true;
+    else
+        return false;
+}
 

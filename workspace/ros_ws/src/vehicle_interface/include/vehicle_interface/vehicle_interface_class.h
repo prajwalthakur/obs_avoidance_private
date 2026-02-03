@@ -1,12 +1,11 @@
 #pragma once
 #include <rclcpp/rclcpp.hpp>
-#include <project_utils/vehicle_class.hpp>
-#include <project_utils/integrator_class.hpp>
 #include <project_utils/msg/eigen_vector.hpp>
 #include <chrono>
+#include "core/CoreCollection.h"
+#include "utils/UtilsCollection.h"
+#include "vehicleModel/VehicleModelCollection.h"
 
-#include "core/vehicleModel/VehicleModelCollection.h"
-#include "core/core/CoreCollection.h"
 class VehicleInterface: public rclcpp::Node
 {
     public:

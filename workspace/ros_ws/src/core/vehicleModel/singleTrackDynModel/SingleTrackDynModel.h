@@ -10,6 +10,5 @@ class SingleTrackDynModel : public VehicleModel
         ~SingleTrackDynModel()=default;
         // Step function
         void step() override;
-
-
+        StateVector getState() const override;
 };

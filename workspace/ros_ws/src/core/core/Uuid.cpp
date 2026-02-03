@@ -2,16 +2,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-Uuid::Uuid(const std::string& category, int value)
-    :mValue(value)
-{
-    if(value == -1)
-        mValue = mGen.getUniqueValue(category);
-    mValueStr = std::to_string(mValue);
-    mCategory = category;
-    setCategoryValue(mCategory,mValue);
-    setCategoryValue();
-}
+// Uuid::Uuid(const std::string& category, int value)
+//     :mValue(value)
+// {
+//     if(value == -1)
+//         mValue = mGen.getUniqueValue(category);
+//     mValueStr = std::to_string(mValue);
+//     mCategory = category;
+//     setCategoryValue(mCategory,mValue);
+//     setCategoryValue();
+// }
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ void Uuid::setCategoryValue(const std::string& category, long int value)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-const long int Uuid::value() const
+long int Uuid::value() const
 {
     return mValue;
 }

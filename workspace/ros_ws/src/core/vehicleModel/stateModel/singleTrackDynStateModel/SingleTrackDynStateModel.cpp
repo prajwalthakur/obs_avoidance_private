@@ -1,5 +1,5 @@
 #include "SingleTrackDynStateModel.h"
-SingleTrackDynStateModel::SingleTrackDynStateModel(const std::string& vehConfig)
+SingleTrackDynStateModel::SingleTrackDynStateModel(const YAML::Node& vehParam)
 {
     // node->declare_parameter("NX", 5);
     // node->declare_parameter("NU", 2);
@@ -23,8 +23,8 @@ SingleTrackDynStateModel::SingleTrackDynStateModel(const std::string& vehConfig)
     // default_sv = node->get_parameter("default_sv").as_double();
     // veh_wheelbase = node->get_parameter("veh_wheelbase").as_double();
 
-    YAML::Node config = YAML::LoadFile(vehConfig);
-    YAML::Node vehParam = config["vehicle_param"];
+    // YAML::Node config = YAML::LoadFile(vehConfig);
+    // YAML::Node vehParam = config["vehicle_param"];
     NX = vehParam["NX"].as<double>();
     NU = vehParam["NU"].as<double>();
     mInitXPose = vehParam["initXPose"].as<double>();
@@ -49,24 +49,24 @@ void SingleTrackDynStateModel::createIntegrator(const YAML::Node& vehYamlConfig)
 {
     double intTimeStep = vehYamlConfig["integration"]["integrationStepSize"].as<double>();
     double simTimeStep = vehYamlConfig["simulation"]["simTimeStep"].as<double>();
-    auto tmpPointer = shared_from_this();
+    auto selfPtr = shared_from_this();
     mIntegrator = std::make_shared<IntegratorClass>
                 (
-                    [this](const StateVector& state, const InputVector& input)->StateVector
+                    [selfPtr](const StateVector& state, const InputVector& input)->StateVector
                     {
-                        return xdot(state,input);
+                        return selfPtr->xdot(state,input);
                     },
-                    [this]() const StateVector&
+                    [selfPtr]()-> const StateVector&
                     {
-                        return getState();
+                        return selfPtr->getState();
                     },
-                    [this](const StateVector& state) -> void
+                    [selfPtr](const StateVector& state) -> void
                     {
-                        return setState(state);
+                        return selfPtr->setState(state);
                     },
-                    [this](const InputVector& input)-> void
+                    [selfPtr](const InputVector& input)-> void
                     {
-                        return setInput(input);
+                        return selfPtr->setInput(input);
                     },
                     intTimeStep,
                     simTimeStep
@@ -88,11 +88,11 @@ void SingleTrackDynStateModel::reset(){
     mStateVector.resize(NX);
     mInputVector.resize(NU);
 
-    mStateVector(0) = state.x;
-    mStateVector(1) = state.y;
-    mStateVector(2) = state.yaw;
-    mStateVector(3) = state.vx;
-    mStateVector(4) = state.sf;
+    mStateVector(0) = mStateStruct.x;
+    mStateVector(1) = mStateStruct.y;
+    mStateVector(2) = mStateStruct.yaw;
+    mStateVector(3) = mStateStruct.vx;
+    mStateVector(4) = mStateStruct.sf;
 
     mInputVector(0) = mInitAcc;
     mInputVector(1) = mInitSv;
@@ -115,7 +115,7 @@ void SingleTrackDynStateModel::setState(const StateVector & statevector){
 void SingleTrackDynStateModel::setInput(const InputVector & input_vector){
     mInputVector = input_vector;
     mInputStruct.acc = mInputVector(0);
-    mStateStruct.sv = mInputVector(1);
+    mInputStruct.sv = mInputVector(1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -213,3 +213,5 @@ InputStruct SingleTrackDynStateModel::VectorToInput(const InputVector& inputvect
     input.sv = inputvector(1);
     return input;
 }
+
+////////////////////////////////////////////////////////////////////////////////

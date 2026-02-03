@@ -159,6 +159,7 @@ function(project_add_library)
     
     project_get_dir_name(curr_dir_name)
     target_include_directories( ${_target_name} PUBLIC ${PROJECT_DIR_SRC}/${curr_dir_name})
+    target_include_directories( ${_target_name} PUBLIC ${PROJECT_DIR_ROOT})
     #message(WARNING "########## ADDING  BEFORE  ${PROJECT_DIR_SRC}/${curr_dir_name}")
     #project_add_post(${ARGN})
 endfunction()

@@ -14,7 +14,7 @@ RectangularGeomClass::RectangularGeomClass(const double length, const double wid
 
 void RectangularGeomClass::setCollisionFootPrint( ptSharedPtr<CollisionFootPrint> collisionFootPrint)
 {
-    auto tempPointer =  std::dynamic_pointer_cast<EllipseCollisionFootPrint>(collisionFootPrint);
+    auto tempPointer =  std::dynamic_pointer_cast<CollisionFootPrint>(collisionFootPrint);
     if(!tempPointer)
         mCollisionFootprint = tempPointer;
 }
@@ -23,7 +23,7 @@ void RectangularGeomClass::setCollisionFootPrint( ptSharedPtr<CollisionFootPrint
 
 std::weak_ptr<CollisionFootPrint> RectangularGeomClass::getCollisionFootPrint()
 {
-    return std::weak_ptr<EllipseCollisionFootPrint>(mCollisionFootprint);
+    return std::weak_ptr<CollisionFootPrint>(mCollisionFootprint);
 }
 
 //////////////////////////////////////////////////////////////////////////

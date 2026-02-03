@@ -9,12 +9,11 @@ class Uuid
     public:
         Uuid()=default;
         ~Uuid()=default;
-        Uuid(const std::string& category,int value = -1);
         Uuid(const std::string& category,long int value = -1);
         static void setCategoryValue(const std::string& category, long int value = -1);
 
         // Getters
-        const long int value() const;
+        long int value() const;
         const std::string& category() const;
         //const std::string& toCategoryStr() const;
         void print() const ;

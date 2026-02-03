@@ -52,14 +52,21 @@ target_include_directories(qp_mpc_class PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
+                 ${CMAKE_BINARY_DIR}/core_build)
+
+
 ament_target_dependencies(qp_mpc_class PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
 target_link_libraries(qp_mpc_class PRIVATE
     eigen-quadprog::eigen-quadprog
     /hpipm/lib/libhpipm.so
     /blasfeo/lib/libblasfeo.so
+    core
+    utils
+    vehicleModel
     
 )
-
 
 # =============================
 # Build qp_mpc_node
