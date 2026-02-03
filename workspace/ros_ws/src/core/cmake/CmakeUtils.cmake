@@ -156,6 +156,10 @@ function(project_add_library)
     project_add_prep(_sources_and_headers)
     project_get_target_name(_target_name)
     add_library(${_target_name} SHARED ${_sources_and_headers})
+    
+    project_get_dir_name(curr_dir_name)
+    target_include_directories( ${_target_name} PUBLIC ${PROJECT_DIR_SRC}/${curr_dir_name})
+    #message(WARNING "########## ADDING  BEFORE  ${PROJECT_DIR_SRC}/${curr_dir_name}")
     #project_add_post(${ARGN})
 endfunction()
 
@@ -179,12 +183,20 @@ endfunction()
 function(project_target_link_libraries)
     project_get_target_name(_target_name)
     project_is_target_exist(_is_target_exist)
+    
+
     if(NOT ${_is_target_exist})
        return()
     endif()
     foreach(_other_target IN ITEMS ${ARGN} )
         target_link_libraries(${_target_name}  ${_other_target})
-        message(STATUS "########## ADDING   ${_other_target} ")  
+        # Include the directories.
+        #message(WARNING "########## ADDING  BEFORE  ${PROJECT_DIR_SRC}/${_other_target}")  
+        #target_include_directories(${_target_name} PUBLIC ${PROJECT_DIR_SRC}/${_other_target}) 
+        if(EXISTS ${PROJECT_DIR_SRC}/${_other_target})
+            target_include_directories(${_target_name} PUBLIC ${PROJECT_DIR_SRC}/${_other_target})
+            #message(WARNING "########## ADDING   ${PROJECT_DIR_SRC}/${_other_target}")  
+        endif()
     endforeach()
 endfunction()
 

@@ -31,7 +31,7 @@ void IntegratorClass::simNextState( const InputVector& u,double ts)const
     this->setInput_(u);
 }
 
-void IntegratorClass::simNextState(const InputVector&) const
+void IntegratorClass::simNextState(const InputVector& u ) const
 {
     StateVector x_next = this->getState_();
     const int integration_steps = (int)(mSimStepSize/this->mIntegrationStepSize);

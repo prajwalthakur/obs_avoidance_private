@@ -21,15 +21,12 @@ endforeach()
 
 # Create a dynamic library from source files (.so)
 add_library(project_utils_lib SHARED 
-  src/vehicle_class.cpp 
-  src/integrator_class.cpp
-  src/common_utils.cpp
-  src/collision_detection.cpp
+  src/main.cpp
 )
 
 
 
-target_compile_features(project_utils_lib PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+# target_compile_features(project_utils_lib PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 # Define message files
 set(MSG_FILES
@@ -54,7 +51,7 @@ target_include_directories(project_utils_lib PUBLIC
 )
 
 
-ament_target_dependencies(project_utils_lib PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
+# ament_target_dependencies(project_utils_lib PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 
 
@@ -72,7 +69,6 @@ install(
 
 )
 
-
 install(
   DIRECTORY maps/
   DESTINATION share/${PROJECT_NAME}/maps
@@ -85,8 +81,6 @@ install(TARGETS project_utils_lib
   EXPORT export_${PROJECT_NAME}
   ARCHIVE DESTINATION lib
 )
-
-
 
 
 # Export targets and dependencies using only ament_export_targets (the ament_export_interfaces call has been removed)

@@ -2,8 +2,8 @@
 #pragma once
 #include "CoreCollection.h"
 #include "UtilsCollection.h"
-#include "GeometricModel.h"
-
+#include "geometricModel/GeometricModel.h"
+#include "EllipseCollisionFootPrint.h"
 struct stVertices
 {
     stPose frontLeft;
@@ -15,12 +15,12 @@ struct stVertices
 class RectangularGeomClass : public GeometricModel
 {
     public:
-    RectangularGeomClass(const double length, const double width);
-    virtual ~RectangularModelClass()=default;
-    void setCollisionFootPrint(ptSharedPtr<CollisionFootPrint> collisionFootPrint) override;
-    std::weak_ptr<CollisionFootPrint> getCollisionFootPrint() override;
-    void step(std::shared_ptr<stPose>& pose) override;
-    const std::shared_ptr<stVertices> getVertices() const;
+        RectangularGeomClass(const double length, const double width);
+        virtual ~RectangularGeomClass()=default;
+        void setCollisionFootPrint(ptSharedPtr<CollisionFootPrint> collisionFootPrint) override;
+        std::weak_ptr<CollisionFootPrint> getCollisionFootPrint() override;
+        void step(std::shared_ptr<stPose>& pose) override;
+        const std::shared_ptr<stVertices> getVertices() const;
     
     private:
         void calcVertices();

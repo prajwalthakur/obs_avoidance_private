@@ -8,10 +8,14 @@
 #pragma once
 #include <Eigen/Dense>
 #include <vector>
+#include <string>
 #include <optional>
 #include <vector>
 #include <unordered_set>
 #include <memory>
+#include <fstream>
+#include <sstream>
+
 
 
 //typedef Eigen::Matrix<double,NX,1> StateVector;

@@ -1,4 +1,4 @@
-#include "core/vehicleModel/stateModel/singleTrackDynStateModel/include/SingleTrackDynStateModel.h"
+#include "SingleTrackDynStateModel.h"
 SingleTrackDynStateModel::SingleTrackDynStateModel(const std::string& vehConfig)
 {
     // node->declare_parameter("NX", 5);

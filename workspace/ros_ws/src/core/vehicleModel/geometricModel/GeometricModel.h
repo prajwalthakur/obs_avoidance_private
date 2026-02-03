@@ -1,5 +1,5 @@
 #pragma once
-#include "core/core/CoreCollection.h"
+#include "CoreCollection.h"
 
 class CollisionFootPrint
 {

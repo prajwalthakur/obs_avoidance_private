@@ -1,3 +1,3 @@
 # msg/EigenVector.msg
-int idx
+int64 idx
 float64[] data
