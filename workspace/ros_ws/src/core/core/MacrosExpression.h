@@ -80,3 +80,5 @@ void load_map(std::string map_path, std::vector<float>& values_buf, MapArrayXfRo
     new (&mat_map_out) MapArrayXfRow(values_buf.data(), rows, numCOl);
     return;
 }
+
+

@@ -23,7 +23,7 @@ bool EllipseCollisionFootPrint::contains(const std::shared_ptr<stPose>& pose) co
     // For an ellipse E and the corresponding ellipse matrix A,
     // x is inside in E if (x-x0)^T * A * (x-x0) <= 1, where x0 is the center of E.
 
-    auto offset = toEigenVector(pose) - toEigenVector(mPose) ; // x-x0
+    auto offset = pose->toEigenVector(pose) - pose->toEigenVector(mPose) ; // x-x0
 
     return offset.transpose() * getEllipseMatrix() * offset <= 1.f;
 }

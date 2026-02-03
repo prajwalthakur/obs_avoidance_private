@@ -5,6 +5,9 @@
 #include <yaml-cpp/yaml.h>
 #include "CoreCollection.h"
 #include "stateModel/StateModel.h"
+
+//////////////////////////////////////////////////////////////////////////
+
 struct StateStruct{
     double x;
     double y;

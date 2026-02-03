@@ -36,7 +36,7 @@ SingleTrackDynStateModel::SingleTrackDynStateModel(const std::string& vehConfig)
     mInitAcc = vehParam["initAcc"].as<double>();
     mInitSv = vehParam["initSv"].as<double>();
     mVehWheelBase = vehParam["vehWheelBase"].as<double>();
-    setIntegrationStepSize(vehParam);
+    //#setIntegrationStepSize(vehParam);
     createIntegrator(vehParam);
     reset();
     updateCommandedControl();

@@ -3,3 +3,4 @@
 #include "Utils.h"
 #include "UuidGenerator.h"
 #include "MacrosExpression.h"
+#include "Uuid.h"
