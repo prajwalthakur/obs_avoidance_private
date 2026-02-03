@@ -26,7 +26,7 @@ class VehicleInterface: public rclcpp::Node
 
         void state_pub_timer_callback(); 
         void state_update_timer_callback();
-        void control_sub_callback(const project_utils::msg::EigenVector::SharedPtr& msg,Uuid& id);
+        void control_sub_callback(const project_utils::msg::EigenVector::SharedPtr& msg, const Uuid& id);
         
         double mSimTimeStep;
         double mStatePublisherTimeStep;
