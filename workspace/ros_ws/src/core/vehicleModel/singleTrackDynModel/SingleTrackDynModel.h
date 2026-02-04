@@ -1,5 +1,5 @@
 #pragma once
-#include "VehicleModel.h"
+#include "vehicleModel/VehicleModel.h"
 #include <yaml-cpp/yaml.h>
 class SingleTrackDynModel : public VehicleModel
 {

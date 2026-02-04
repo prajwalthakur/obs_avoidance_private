@@ -2,7 +2,7 @@
 #include <Eigen/Dense>
 #include <cmath>
 #include <functional>
-#include "CoreCollection.h"
+#include "core/CoreCollection.h"
 
 class IntegratorClass
 {

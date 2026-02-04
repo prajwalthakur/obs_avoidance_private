@@ -27,12 +27,8 @@ foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
 endforeach()
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
-                 ${CMAKE_BINARY_DIR}/core_build)
-
-
-
-
+# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../core
+#                  ${CMAKE_BINARY_DIR}/core_build)
 
 # =============================
 # Build Vehicle Interface Class
@@ -52,9 +48,9 @@ ament_target_dependencies(vehicle_interface_class PUBLIC ${THIS_PACKAGE_INCLUDE_
 
 target_link_libraries(vehicle_interface_class
   PUBLIC
-    core
-    utils
-    vehicleModel
+    project_utils::core
+    project_utils::utils
+    project_utils::vehicleModel
 )
 # =============================
 # Build Vehicle Node

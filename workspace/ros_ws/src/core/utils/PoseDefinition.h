@@ -1,6 +1,6 @@
 #pragma once
 #include <Eigen/Dense>
-#include "CoreCollection.h"
+#include "core/CoreCollection.h"
 struct stPose
 {   
     public:

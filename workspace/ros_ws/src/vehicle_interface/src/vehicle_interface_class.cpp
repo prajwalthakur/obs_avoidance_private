@@ -6,11 +6,12 @@ VehicleInterface::VehicleInterface():Node("vehicle_interface_node",rclcpp::NodeO
 {
 
     RCLCPP_INFO(this->get_logger(),"vehicle interface node started");
-    this->declare_parameter<double>("simulation.simTimeStep", 0.01);
-    this->declare_parameter<double>("simulation.statePublisherTimeStep", 0.05);
+    //this->declare_parameter<double>("simulation.simTimeStep", 0.01);
+    //this->declare_parameter<double>("simulation.statePublisherTimeStep", 0.05);
     
     mSimTimeStep = this->get_parameter("simulation.simTimeStep").as_double();
     mStatePublisherTimeStep = this->get_parameter("simulation.statePublisherTimeStep").as_double();
+    RCLCPP_INFO(this->get_logger(),"mSimTimeStep");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,11 +80,14 @@ void VehicleInterface::on_activate()
 
 void VehicleInterface::addVehicles()
 {
-    for(int i=0;i<mNumVehicles;++i)
+    for(int i=1;i<=mNumVehicles;++i)
     {
-        std::string vehConfig = "/home/prajwal/projects/obs_avoidance_private/workspace/ros_ws/src/core/config/Vehicle" + std::to_string(i) + "_Config.yaml";
+        RCLCPP_INFO(this->get_logger(),"adding vehicles");
+        
+        std::string vehConfig = "/workspace/ros_ws/src/project_utils/config/Vehicle" + std::to_string(i) + "_Config.yaml";
         ptSharedPtr<VehicleModel> veh  = std::make_shared<SingleTrackDynModel>(vehConfig);
         mVehicleCollection[veh->id()] = veh;
         mVehKeyCollection[veh->id().value()] = veh->id();
     }
+
 }

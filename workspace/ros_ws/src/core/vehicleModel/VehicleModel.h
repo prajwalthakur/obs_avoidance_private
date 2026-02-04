@@ -1,6 +1,6 @@
 #pragma once
-#include "CoreCollection.h"
-#include "UtilsCollection.h"
+#include "core/CoreCollection.h"
+#include "utils/UtilsCollection.h"
 #include "geometricModel/GeometricModelCollection.h"
 #include  "stateModel/StateModelCollection.h"
 class VehicleModel

@@ -4,6 +4,7 @@
 
 SingleTrackDynModel::SingleTrackDynModel(const std::string& vehParamConfig)
 {
+    std::cerr<< " vehParamConfig " << vehParamConfig << std::endl;
     YAML::Node config = YAML::LoadFile(vehParamConfig);
     YAML::Node veh_param = config["vehicle_param"];
     if(isStringEqual(veh_param["geomModelType"].as<std::string>(),"rectangular"))

@@ -1,6 +1,6 @@
 #pragma once
-#include "CoreCollection.h"
-#include "UtilsCollection.h"
+#include "core/CoreCollection.h"
+#include "utils/UtilsCollection.h"
 class StateModel
 {
     public:

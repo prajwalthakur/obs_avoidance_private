@@ -1,6 +1,6 @@
 
 #pragma once
-#include "CoreCollection.h"
-#include "UtilsCollection.h"
-#include "geometricModel/GeometricModel.h"
+#include "core/CoreCollection.h"
+#include "utils/UtilsCollection.h"
+#include "vehicleModel/geometricModel/GeometricModel.h"
 #include "EllipsoidCollisionFootPrint.h"

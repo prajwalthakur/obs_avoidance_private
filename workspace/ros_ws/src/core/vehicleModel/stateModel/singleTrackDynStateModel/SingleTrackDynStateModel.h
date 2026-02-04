@@ -3,8 +3,7 @@
 #include <Eigen/Dense>
 #include <cmath>
 #include <yaml-cpp/yaml.h>
-#include "CoreCollection.h"
-#include "stateModel/StateModel.h"
+#include "vehicleModel/stateModel/StateModel.h"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +15,8 @@ struct StateStruct{
     double sf;
 };
 
-struct InputStruct{
+struct InputStruct
+{
         double sv;
         double acc;
 };

@@ -1,4 +1,4 @@
 #pragma once
-#include "geometricModel/GeometricModel.h"
-#include "geometricModel/rectangular/RectangularGeom.h"
-#include "geometricModel/rectangular/EllipseCollisionFootPrint.h"
+#include "vehicleModel/geometricModel/GeometricModel.h"
+#include "vehicleModel/geometricModel/rectangular/RectangularGeom.h"
+#include "vehicleModel/geometricModel/rectangular/EllipseCollisionFootPrint.h"
