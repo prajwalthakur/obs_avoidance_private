@@ -63,9 +63,10 @@ void VehicleInterface::on_activate()
 
     for(int idx=1;idx<=mNumVehicles;++idx)
     {
-            mStatePublisher[mVehKeyCollection.at(idx)] = create_publisher<project_utils::msg::EigenVector>("/" + "vehicle_" + std::to_string(idx) + "/cmd_vel", 10);
-            mControlSubscriber[mVehKeyCollection.at(idx)] = create_subscription<project_utils::msg::EigenVector>("/" + "vehicle_" + std::to_string(idx) + "/control_command",10,
-                            [this](const project_utils::msg::EigenVector::SharedPtr msg ){this->control_sub_callback(msg,mVehKeyCollection.at(idx));})
+            mStatePublisher[mVehKeyCollection.at(idx)] = create_publisher<project_utils::msg::EigenVector>("/vehicle_" + std::to_string(idx) + "/state", 10);
+            mControlSubscriber[mVehKeyCollection.at(idx)] = \
+            create_subscription<project_utils::msg::EigenVector>("/vehicle_" + std::to_string(idx) + "/control_command",10,
+                            [this, idx](const project_utils::msg::EigenVector::SharedPtr msg ){this->control_sub_callback(msg,mVehKeyCollection.at(idx));});
     }
     
 
@@ -80,8 +81,8 @@ void VehicleInterface::addVehicles()
 {
     for(int i=0;i<mNumVehicles;++i)
     {
-        std::string vehConfig = "/home/prajwal/projects/obs_avoidance_private/workspace/ros_ws/src/core/config" + "/Vehicle" + std::to_string(i) + "_Config.yaml";
-        ptSharedPtr<VehicleModel> veh  = std::make_shared<SingleTrackDynModel>(vehConfig)
+        std::string vehConfig = "/home/prajwal/projects/obs_avoidance_private/workspace/ros_ws/src/core/config/Vehicle" + std::to_string(i) + "_Config.yaml";
+        ptSharedPtr<VehicleModel> veh  = std::make_shared<SingleTrackDynModel>(vehConfig);
         mVehicleCollection[veh->id()] = veh;
         mVehKeyCollection[veh->id().value()] = veh->id();
     }

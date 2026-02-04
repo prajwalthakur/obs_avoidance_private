@@ -1,14 +1,17 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include <Eigen/Dense>
+#include <project_utils/msg/eigen_vector.hpp>
 #include <blasfeo_d_aux_ext_dep.h>
 #include "hpipm_d_ocp_qp_ipm.h"
 #include "hpipm_d_ocp_qp_dim.h"
 #include "hpipm_d_ocp_qp.h"
 #include "hpipm_d_ocp_qp_sol.h"
 #include "hpipm_timing.h"
-#include <project_utils/vehicle_class.hpp>
-#include <project_utils/msg/eigen_vector.hpp>
+#include "core/CoreCollection.h"
+#include "utils/UtilsCollection.h"
+#include "vehicleModel/VehicleModelCollection.h"
+
 
 class MpcNode : public rclcpp::Node
 {

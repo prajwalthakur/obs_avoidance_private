@@ -76,3 +76,8 @@ void Uuid::print() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+
+bool Uuid::operator==(const Uuid& other) const
+{
+    return mValueCategoryStr == other.mValueCategoryStr;
+}

@@ -18,6 +18,7 @@ class Uuid
         //const std::string& toCategoryStr() const;
         void print() const ;
         //const Uuid& getIdbyValue();
+        bool operator==(const Uuid& other) const;
     private:
         void setCategoryValue();
     private:

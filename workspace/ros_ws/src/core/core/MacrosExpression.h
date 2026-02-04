@@ -105,3 +105,14 @@ inline bool isStringEqual(const std::string& s1, const std::string& s2)
         return false;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+inline std::string concatString(std::vector<std::string>& vec)
+{
+    std::string newString;
+    for(auto& str : vec)
+    {
+        newString =  newString.append(str);
+    }
+    return newString;
+}

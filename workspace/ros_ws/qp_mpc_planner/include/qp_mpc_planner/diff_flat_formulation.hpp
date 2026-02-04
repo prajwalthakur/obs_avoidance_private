@@ -5,9 +5,9 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <rclcpp/rclcpp.hpp>
-#include <project_utils/vehicle_class.hpp>
-#include <project_utils/msg/eigen_vector.hpp>
-#include <project_utils/common_utils.hpp>
+#include "core/CoreCollection.h"
+#include "utils/UtilsCollection.h"
+#include "vehicleModel/VehicleModelCollection.h"
 #include "qp_mpc_planner/planner_utils.hpp"
 #include "bernstein_pol.hpp"
 #include <eigen-quadprog/QuadProg.h>
