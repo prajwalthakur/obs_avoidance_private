@@ -12,7 +12,9 @@ EllipseCollisionFootPrint::EllipseCollisionFootPrint(const double majorAxisLengt
         mPose  = std::make_shared<stPose>();
       }
 
-void EllipseCollisionFootPrint::step(std::shared_ptr<stPose>& pose)
+//////////////////////////////////////////////////////////////////////////
+
+void EllipseCollisionFootPrint::step(const ptSharedPtr<stPose>& pose)
 {
     mPose = pose;
 }

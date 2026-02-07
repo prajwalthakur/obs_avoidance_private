@@ -3,9 +3,10 @@
 #include <yaml-cpp/yaml.h>
 class SingleTrackDynModel : public VehicleModel
 {
+    using BaseType = VehicleModel;
     public:
         // Constructor
-        SingleTrackDynModel(const std::string& vehicleParamFilePath);
+        SingleTrackDynModel(YAML::Node& simConfig, YAML::Node& vehConfig);
         // Destructor
         ~SingleTrackDynModel()=default;
         // Step function

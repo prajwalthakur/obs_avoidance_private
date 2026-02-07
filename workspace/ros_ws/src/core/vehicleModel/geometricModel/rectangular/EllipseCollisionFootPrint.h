@@ -8,7 +8,7 @@ class EllipseCollisionFootPrint : public CollisionFootPrint
     public:
         EllipseCollisionFootPrint(const double majorAxisLength, const double minorAxisLength);
         ~EllipseCollisionFootPrint()=default;
-        void step(std::shared_ptr<stPose>& pose) override;
+        void step(const ptSharedPtr<stPose>& pose) override;
         bool contains(const std::shared_ptr<stPose>& pose) const ;
         Eigen::Matrix2f getEllipseMatrix() const ;
         Eigen::Vector2f getCenter();

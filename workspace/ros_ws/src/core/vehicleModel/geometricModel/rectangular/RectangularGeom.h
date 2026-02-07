@@ -19,9 +19,9 @@ class RectangularGeomClass : public GeometricModel
         virtual ~RectangularGeomClass()=default;
         void setCollisionFootPrint(ptSharedPtr<CollisionFootPrint> collisionFootPrint) override;
         std::weak_ptr<CollisionFootPrint> getCollisionFootPrint() override;
-        void step(std::shared_ptr<stPose>& pose) override;
+        void step(const ptSharedPtr<stPose>& pose) override;
         const std::shared_ptr<stVertices> getVertices() const;
-    
+        void printVertices() const ;
     private:
         void calcVertices();
     private:

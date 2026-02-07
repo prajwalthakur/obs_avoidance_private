@@ -26,7 +26,7 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
 {
     using BaseType = StateModel;
     public:
-        explicit SingleTrackDynStateModel(const YAML::Node& vehParam);
+        explicit SingleTrackDynStateModel(YAML::Node& simConfig, YAML::Node& vehConfig, const Uuid& id );
         void updateCommandedControl(const InputVector& u ) override;
         void step() override;
         const StateVector& getState() const override;
@@ -39,8 +39,9 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
         InputVector InputToVector(const InputStruct &) const;
         InputStruct VectorToInput(const InputVector &) const;
         StateVector xdot(const StateVector & , const InputVector &) const;
+        void createIntegrator() override;
     private:
-        void createIntegrator(const YAML::Node& vehYamlConfig);
+        void createIntegrator(YAML::Node& simConfig, YAML::Node& vehConfig);
         void updateCommandedControl();
     private:
         int NX;
@@ -58,7 +59,6 @@ class SingleTrackDynStateModel : public StateModel, public std::enable_shared_fr
         StateStruct mStateStruct;
         InputVector mInputVector;
         StateVector mStateVector;
-        InputVector mCommandedControl;
 };
 
 

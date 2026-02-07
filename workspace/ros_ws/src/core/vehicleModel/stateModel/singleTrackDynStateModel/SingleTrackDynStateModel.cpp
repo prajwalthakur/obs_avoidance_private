@@ -1,5 +1,6 @@
 #include "SingleTrackDynStateModel.h"
-SingleTrackDynStateModel::SingleTrackDynStateModel(const YAML::Node& vehParam)
+SingleTrackDynStateModel::SingleTrackDynStateModel(YAML::Node& simConfig, YAML::Node& vehConfig, const Uuid& id)
+    : BaseType(simConfig, vehConfig, id)
 {
     // node->declare_parameter("NX", 5);
     // node->declare_parameter("NU", 2);
@@ -24,31 +25,34 @@ SingleTrackDynStateModel::SingleTrackDynStateModel(const YAML::Node& vehParam)
     // veh_wheelbase = node->get_parameter("veh_wheelbase").as_double();
 
     // YAML::Node config = YAML::LoadFile(vehConfig);
-    // YAML::Node vehParam = config["vehicle_param"];
-    NX = vehParam["NX"].as<double>();
-    NU = vehParam["NU"].as<double>();
-    mInitXPose = vehParam["initXPose"].as<double>();
-    mInitYPose = vehParam["initYPose"].as<double>();
-    mInitYaw = vehParam["initYaw"].as<double>();
+    // YAML::Node vehConfig = config["vehicle_param"];
+    NX = mVehConfig["NX"].as<int>();
+    NU = mVehConfig["NU"].as<int>();
+    mInitXPose = mVehConfig["initXPose"].as<double>();
+    mInitYPose = mVehConfig["initYPose"].as<double>();
+    mInitYaw = mVehConfig["initYaw"].as<double>();
 
-    mInitVx = vehParam["initVx"].as<double>();
-    mInitSf = vehParam["initSf"].as<double>();
-    mInitAcc = vehParam["initAcc"].as<double>();
-    mInitSv = vehParam["initSv"].as<double>();
-    mVehWheelBase = vehParam["vehWheelBase"].as<double>();
-    //#setIntegrationStepSize(vehParam);
-    createIntegrator(vehParam);
+    mInitVx = mVehConfig["initVx"].as<double>();
+    mInitSf = mVehConfig["initSf"].as<double>();
+    mInitAcc = mVehConfig["initAcc"].as<double>();
+    mInitSv = mVehConfig["initSv"].as<double>();
+    mVehWheelBase = mVehConfig["vehWheelBase"].as<double>();
+}
+
+
+void SingleTrackDynStateModel::createIntegrator()
+{
+    createIntegrator(mSimConfig, mVehConfig);
     reset();
     updateCommandedControl();
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SingleTrackDynStateModel::createIntegrator(const YAML::Node& vehYamlConfig)
+void SingleTrackDynStateModel::createIntegrator(YAML::Node& simConfig, YAML::Node& vehYamlConfig)
 {
     double intTimeStep = vehYamlConfig["integration"]["integrationStepSize"].as<double>();
-    double simTimeStep = vehYamlConfig["simulation"]["simTimeStep"].as<double>();
+    double simTimeStep = simConfig["simTimeStep"].as<double>();
     auto selfPtr = shared_from_this();
     mIntegrator = std::make_shared<IntegratorClass>
                 (
@@ -108,6 +112,7 @@ void SingleTrackDynStateModel::setState(const StateVector & statevector){
     mStateStruct.yaw = mStateVector(2);
     mStateStruct.vx = mStateVector(3);
     mStateStruct.sf = mStateVector(4);
+    std::cerr << " updated states " <<  mStateStruct.x << " " << mStateStruct.y << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +140,7 @@ const StateVector& SingleTrackDynStateModel::getInput() const {
 
 StateVector SingleTrackDynStateModel::xdot(const StateVector& statevector, const InputVector& inputvector) const
 {
+
     StateVector statevector_dot;
     statevector_dot.resize(NX);
 
@@ -167,7 +173,7 @@ void SingleTrackDynStateModel::updateCommandedControl(const InputVector& u )
 
 void SingleTrackDynStateModel::step()
 {
-    mIntegrator->simNextState(mCommandedControl); // state space step
+   mIntegrator->simNextState(mCommandedControl); // state space step
     
 }
 

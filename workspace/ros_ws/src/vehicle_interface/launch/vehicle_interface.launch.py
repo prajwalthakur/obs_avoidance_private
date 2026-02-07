@@ -9,8 +9,8 @@ def generate_launch_description():
     # Get the path to the installed project_utils config directory
     util_dir = get_package_share_directory('project_utils')
     declare_params_file_cmd = DeclareLaunchArgument(
-        'params_file',
-        default_value=os.path.join(util_dir, 'config', 'vehicle_params.yaml'),
+        'configuration_file',
+        default_value=os.path.join(util_dir, 'config', 'sim_config.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
     
     map_dir = DeclareLaunchArgument(
@@ -27,7 +27,7 @@ def generate_launch_description():
                 executable='vehicle_interface_node',
                 name='vehicle_interface_node',
                 output='screen',
-                parameters=[LaunchConfiguration('params_file')],
+                parameters=[LaunchConfiguration('configuration_file')],
                 )
             ]  
     )

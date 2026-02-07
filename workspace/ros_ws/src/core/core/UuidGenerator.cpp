@@ -37,10 +37,11 @@ long int UuidGenerator::getUniqueValue(const std::string& category) const
     auto el = ref->mQueryMap.find(category);
     if(el != ref->mQueryMap.end())
     {
-        return el->second++;
+        return ++el->second;
     }
     else 
     {
+        ref->mQueryMap.insert({category,1});
         return 1;
     }
 }

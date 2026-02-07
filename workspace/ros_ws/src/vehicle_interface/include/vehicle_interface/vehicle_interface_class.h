@@ -30,4 +30,5 @@ class VehicleInterface: public rclcpp::Node
         
         double mSimTimeStep;
         double mStatePublisherTimeStep;
+        YAML::Node mRosParams;
 };

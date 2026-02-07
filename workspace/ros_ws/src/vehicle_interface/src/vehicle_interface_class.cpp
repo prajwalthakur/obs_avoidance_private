@@ -6,11 +6,19 @@ VehicleInterface::VehicleInterface():Node("vehicle_interface_node",rclcpp::NodeO
 {
 
     RCLCPP_INFO(this->get_logger(),"vehicle interface node started");
+    
+    
+    std::string config_path;
+    this->get_parameter("configuration_file", config_path);
+    YAML::Node root = YAML::LoadFile(config_path);
+
+    // load the params
+    mRosParams = root["/**"]["ros__parameters"];
     //this->declare_parameter<double>("simulation.simTimeStep", 0.01);
     //this->declare_parameter<double>("simulation.statePublisherTimeStep", 0.05);
-    
-    mSimTimeStep = this->get_parameter("simulation.simTimeStep").as_double();
-    mStatePublisherTimeStep = this->get_parameter("simulation.statePublisherTimeStep").as_double();
+    YAML::Node sim_config = mRosParams["simulation"];
+    mSimTimeStep = sim_config["simTimeStep"].as<double>();
+    mStatePublisherTimeStep = sim_config["statePublisherTimeStep"].as<double>();
     RCLCPP_INFO(this->get_logger(),"mSimTimeStep");
 }
 
@@ -49,7 +57,9 @@ void VehicleInterface::control_sub_callback(
 {
     //int idx = msg->data.idx();
     //if(mVehKeyCollection.find(idx)!=mVehKeyCollection.end())
-    mCommandedControlMap[id] = Eigen::Map<Eigen::VectorXd>(msg->data.data(), msg->data.size());    
+    InputVector control= Eigen::Map<Eigen::VectorXd>(msg->data.data(), msg->data.size());
+    mCommandedControlMap[id] =control;   
+    mVehicleCollection[id]->updateCommandedControl(control);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +71,7 @@ void VehicleInterface::control_sub_callback(
 void VehicleInterface::on_activate() 
 {
     addVehicles();
-
+    RCLCPP_INFO(this->get_logger(), " on activate");
     for(int idx=1;idx<=mNumVehicles;++idx)
     {
             mStatePublisher[mVehKeyCollection.at(idx)] = create_publisher<project_utils::msg::EigenVector>("/vehicle_" + std::to_string(idx) + "/state", 10);
@@ -80,13 +90,22 @@ void VehicleInterface::on_activate()
 
 void VehicleInterface::addVehicles()
 {
+    YAML::Node simConfig = mRosParams["simulation"];
+    RCLCPP_INFO(this->get_logger(),"adding vehicles");
     for(int i=1;i<=mNumVehicles;++i)
     {
-        RCLCPP_INFO(this->get_logger(),"adding vehicles");
         
-        std::string vehConfig = "/workspace/ros_ws/src/project_utils/config/Vehicle" + std::to_string(i) + "_Config.yaml";
-        ptSharedPtr<VehicleModel> veh  = std::make_shared<SingleTrackDynModel>(vehConfig);
+        std::string veh_key = "vehicle" + std::to_string(i) + "_param";
+        if (!mRosParams[veh_key])
+        {
+            RCLCPP_ERROR(this->get_logger(), "Missing config for %s", veh_key.c_str());
+            continue;
+        }
+        YAML::Node config = mRosParams[veh_key];
+        // pass simulation config and vehicle configs yaml node.
+        ptSharedPtr<VehicleModel> veh  = std::make_shared<SingleTrackDynModel>(simConfig,config);
         mVehicleCollection[veh->id()] = veh;
+        std::cerr <<veh->id().value() <<" ";
         mVehKeyCollection[veh->id().value()] = veh->id();
     }
 
